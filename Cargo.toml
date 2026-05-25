@@ -1,0 +1,28 @@
+[package]
+name = "rubrum_swisseph"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = []
+
+# Feature used by the wasm32-unknown-unknown web example.
+#
+# This keeps the core adapter crate lightweight while allowing the example to
+# pull in the pure-SVG renderer.
+wasm_example_svg = ["dep:rubrum_render", "dep:rubrum_svg", "dep:toml", "dep:serde"]
+
+[dependencies]
+rubrum = "*"
+swisseph = "*"
+
+# Optional deps used only by the wasm example.
+rubrum_render = { path = "../rubrum_render_rs", optional = true }
+rubrum_svg = { path = "../rubrum_svg_rs", optional = true }
+
+toml = { version = "0.8", optional = true }
+serde = { version = "1.0.219", features = ["derive"], optional = true }
+
+[[example]]
+name = "unknown_web"
+required-features = ["wasm_example_svg"]

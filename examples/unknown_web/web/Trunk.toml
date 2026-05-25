@@ -1,0 +1,29 @@
+# Trunk config for the rubrum_swisseph wasm demo.
+#
+# Important: do NOT write build artifacts into the Trunk source dir (./web),
+# otherwise Trunk will detect file changes and rebuild in a loop.
+#
+# Instead:
+# - pre_build: build the wasm into ../../target/...
+# - post_build: copy the artifact into Trunk’s staging dir so it ends up in dist.
+
+[build]
+target = "index.html"
+dist = "dist"
+
+[[hooks]]
+stage = "pre_build"
+command = "sh"
+command_arguments = [
+  "-lc",
+  "set -euo pipefail; profile=${TRUNK_PROFILE:-debug}; root=\"$TRUNK_SOURCE_DIR/../../../..\"; export CARGO_TARGET_DIR=\"$root/target\"; if [ \"$profile\" = \"release\" ]; then cargo build --manifest-path \"$root/rubrum_swisseph_rs/Cargo.toml\" --target wasm32-unknown-unknown --example unknown_web -q --release --features wasm_example_svg; else cargo build --manifest-path \"$root/rubrum_swisseph_rs/Cargo.toml\" --target wasm32-unknown-unknown --example unknown_web -q --features wasm_example_svg; fi",
+]
+
+[[hooks]]
+stage = "post_build"
+command = "sh"
+command_arguments = [
+  "-lc",
+  "set -euo pipefail; profile=${TRUNK_PROFILE:-debug}; root=\"$TRUNK_SOURCE_DIR/../../../..\"; cp \"$root/target/wasm32-unknown-unknown/$profile/examples/unknown_web.wasm\" \"$TRUNK_STAGING_DIR/rubrum_swisseph_unknown.wasm\"",
+]
+

@@ -15,6 +15,7 @@ wasm_example_svg = ["dep:rubrum-render", "dep:rubrum-svg", "dep:toml", "dep:serd
 [dependencies]
 rubrum = "*"
 swisseph = "*"
+swisseph-sys = { path = "../swisseph-sys" }
 
 # Optional deps used only by the wasm example.
 rubrum-render = { path = "../rubrum-render", optional = true }

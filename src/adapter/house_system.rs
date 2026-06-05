@@ -1,5 +1,6 @@
 pub fn house_system_to_swisseph(system: rubrum::HouseSystem) -> swisseph::HouseSystemKind {
     match system {
+        rubrum::HouseSystem::None => swisseph::HouseSystemKind::Placidus,
         rubrum::HouseSystem::Placidus => swisseph::HouseSystemKind::Placidus,
         rubrum::HouseSystem::Koch => swisseph::HouseSystemKind::Koch,
         rubrum::HouseSystem::Porphyry => swisseph::HouseSystemKind::Porphyrius,
